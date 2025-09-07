@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undangan Pernikahan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background: linear-gradient(135deg, #6b4f36, #3e2a20);
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Tombol Musik */
+    .music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 
+        5px 5px 15px rgba(0,0,0,0.3),
+        -5px -5px 15px rgba(255,255,255,0.6),
+        inset 2px 2px 6px rgba(0,0,0,0.2),
+        inset -2px -2px 6px rgba(255,255,255,0.7);
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .music-btn svg {
+      width: 28px;
+      height: 28px;
+      fill: white;
+    }
+
+    .music-btn.playing {
+      background: rgba(255,255,255,0.35);
+      transform: scale(1.1);
+    }
+
+    /* Card Undangan */
+    .card {
+      max-width: 750px;
+      width: 100%;
+      padding: 40px;
+      border-radius: 30px;
+      background: #f9f4f0;
+      box-shadow: 
+        8px 8px 20px rgba(0,0,0,0.25),
+        -8px -8px 20px rgba(255,255,255,0.9),
+        inset 3px 3px 8px rgba(0,0,0,0.15),
+        inset -3px -3px 8px rgba(255,255,255,0.8);
+      text-align: center;
+      animation: fadeIn 1.5s ease-in-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5rem;
+      margin: 10px 0 5px 0;
+      color: #5a2d0c;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin: 15px 0;
+      color: #6c4f3d;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #3e2a20;
+      margin: 8px 0;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #8a4a1c;
+    }
+
+    .date-box {
+      margin: 25px 0;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(135deg, #a16e4c, #6e4431);
+      display: inline-block;
+      padding: 15px 30px;
+      border-radius: 20px;
+      box-shadow: 
+        5px 5px 15px rgba(0,0,0,0.4),
+        -5px -5px 15px rgba(255,255,255,0.3);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Tombol Musik -->
+  <div id="musicBtn" class="music-btn">
+    <!-- Ikon Play -->
+    <svg id="playIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M8 5v14l11-7z"/>
+    </svg>
+    <!-- Ikon Pause (disembunyikan awalnya) -->
+    <svg id="pauseIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display:none;">
+      <path d="M6 19h4V5H6zm8-14v14h4V5h-4z"/>
+    </svg>
+  </div>
+  <audio id="bg-music" loop>
+    <!-- Ganti link lagu di bawah ini sesuai keinginan -->
+    <source src="lagu-jawa.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Card Undangan -->
+  <div class="card">
+    <h2>Akad Nikah</h2>
+    <p><span class="highlight">Mohon do'a restu atas pernikahan putra putri kami:</span></p>
+    
+    <h1>Alfin Miftahul Khasanah</h1>
+    <p>Putri dari Bpk. Miftahudin & Ibu Suripah<br>
+    (Dsn. Ciguling RT01 RW 07 Ds. Padangjaya)</p>
+
+    <h2>dan</h2>
+
+    <h1>Handoko</h1>
+    <p>Putra dari Bpk. Basirudin (alm) & Ibu Musrifah<br>
+    (Dsn. Pakuaji Wetan RT03 RT06 Ds. Cilopadang)</p>
+
+    <p class="highlight">Yang insyallah akan dilaksanakan pada :</p>
+    <div class="date-box">
+      Kamis, 06 November 2025<br>
+      Pukul: Bebas<br>
+      Tempat: Dsn. Ciguling RT01 RW 07 Ds. Padangjaya
+    </div>
+
+    <p class="highlight">Hormat kami,</p>
+    <p>Bpk. Miftahudin & Ibu Suripah</p>
+  </div>
+
+  <script>
+    const music = document.getElementById("bg-music");
+    const musicBtn = document.getElementById("musicBtn");
+    const playIcon = document.getElementById("playIcon");
+    const pauseIcon = document.getElementById("pauseIcon");
+    let playing = false;
+
+    musicBtn.addEventListener("click", () => {
+      if (playing) {
+        music.pause();
+        playIcon.style.display = "block";
+        pauseIcon.style.display = "none";
+        musicBtn.classList.remove("playing");
+      } else {
+        music.play();
+        playIcon.style.display = "none";
+        pauseIcon.style.display = "block";
+        musicBtn.classList.add("playing");
+      }
+      playing = !playing;
+    });
+  </script>
+</body>
+</html>
